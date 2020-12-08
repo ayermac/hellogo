@@ -1,7 +1,7 @@
 package main
 
 import (
-    "database/sql"
+    _ "database/sql"
     "fmt"
     "github.com/astaxie/beego/orm"
     _ "github.com/go-sql-driver/mysql"
@@ -14,7 +14,7 @@ type User struct {
 
 func init() {
     // 注册驱动
-    orm.RegisterDriver("mysql", orm.DR_MySQL)
+    orm.RegisterDriver("mysql", orm.DRMySQL)
     // 设置默认数据库
     orm.RegisterDataBase("default", "mysql", "dev_web:dev_web@tcp(127.0.0.1:3307)/dev_web?charset=utf8", 30)
     // 注册定义的 model
@@ -33,25 +33,25 @@ func init() {
 }
 
 func main()  {
-    o := orm.NewOrm
+    Ormer := orm.NewOrm
 
     user := User{Name: "Jason"}
 
     // 插入表
-    id, err := o.Insert(&user)
+    id, err := Ormer.Insert(&user)
     fmt.Printf("ID: %d, ERR: %v\n", id, err)
 
     // 更新表
     user.Name = "JasonUpdate"
-    num, err = o.Update(&user)
+    num, err = Ormer.Update(&user)
     fmt.Printf("ID: %d, ERR: %v\n", num, err)
 
     // 读取 one
     u := User{Id: user.Id}
-    err = o.Read(&u)
+    err = Ormer.Read(&u)
     fmt.Printf("ERR: %v\n", err)
 
     // 删除表
-    num, err = o.Delete(&u)
+    num, err = Ormer.Delete(&u)
     fmt.Printf("NUM: %d, ERR: %v\n", num, err)
 }
